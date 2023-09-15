@@ -13,3 +13,13 @@ Content-Type: audio/mpeg
 
 < ./blood&Fire_TheHeavy.mp3
 ------WebKitFormBoundary7MA4YWxkTrZu0gW--
+
+###
+
+# @name create-transcription
+POST http://localhost:3333/videos/62f84114-6ba1-4baf-8448-f958230151eb/transcription
+Content-Type: application/json
+
+{
+  "prompt": "musica"
+}
