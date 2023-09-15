@@ -23,3 +23,15 @@ Content-Type: application/json
 {
   "prompt": "musica"
 }
+
+###
+
+# @name generate-ai-completion
+POST http://localhost:3333/ai/complete
+Content-Type: application/json
+
+{
+  "videoId": "62f84114-6ba1-4baf-8448-f958230151eb",
+  "temperature": 0.5,
+  "template": "Gere um resumo sucinto da transcrição do vídeo informada a seguir: '''{transcription}''' "
+}
