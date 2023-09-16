@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { Github, Wand2 } from "lucide-react"
 
 import { Separator } from "./components/ui/separator";
@@ -17,6 +18,9 @@ import { VideoInputForm } from "./components/video-input-form";
 import { PromptSelect } from "./components/prompt-select";
 
 export function App() {
+  const [temperature, setTemperature] = useState(0.5)
+  const [videoId, setVideoId] = useState<string | null>(null)
+
   function handlePromptSelected(template: string) {
     console.log(template)    
   }
@@ -64,7 +68,7 @@ export function App() {
 
         <aside className="w-80 space-y-6">
 
-          <VideoInputForm />
+          <VideoInputForm onVideoUploaded={setVideoId} />
       
           <Separator />
 
@@ -98,6 +102,9 @@ export function App() {
                 min={0}
                 max={1}
                 step={0.1}
+                value={[temperature]}
+                onValueChange={value => setTemperature(value[0])}
+
               />
               <span className="block text-xs text-muted-foreground italic leading-relaxed">
                 Valores mais altos tendem a deixar o resultado mais criativo e com possíveis erros.
