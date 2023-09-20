@@ -1,11 +1,10 @@
 import { useState } from "react";
-import { Github, Save, Wand2 } from "lucide-react";
+import { Github, Wand2 } from "lucide-react";
 import { useCompletion } from "ai/react";
 
 import { ThemeProvider } from "./components/theme-provider";
 import { Separator } from "./components/ui/separator";
 import { Button } from "./components/ui/button";
-import { Textarea } from "./components/ui/textarea";
 import { Label } from "./components/ui/label";
 import {
   Select,
@@ -15,12 +14,12 @@ import {
   SelectItem
 } from "./components/ui/select";
 import { Slider } from "./components/ui/slider";
-import { Dialog, DialogTrigger } from "./components/ui/dialog";
+import { Dialog } from "./components/ui/dialog";
 
 import { VideoInputForm } from "./components/video-input-form";
 import { PromptSelect } from "./components/prompt-select";
 import { ModeToggle } from "./components/mode-toggle";
-import { SavePrompt } from "./components/save-promt";
+import { PromptForm } from "./components/prompt-form";
 
 export function App() {
   const [temperature, setTemperature] = useState(0.5)
@@ -46,6 +45,7 @@ export function App() {
 
   return (
     <ThemeProvider defaultTheme="dark" storageKey="vite-ui-theme">
+      <Dialog>
       <div className="min-h-screen flex flex-col">
         <div className="px-6 py-3 flex items-center justify-between border-b">
           <h1 className="text-xl font-bold">upload.ai</h1>
@@ -67,96 +67,68 @@ export function App() {
         </div>
 
         <main className="flex-1 p-6 flex gap-6">
-          <Dialog>
-            <SavePrompt />
+          <PromptForm
+            input={input}
+            handleInputChange={handleInputChange}
+            completion={completion}
+          />
 
-            <div className="flex flex-col flex-1 gap-4">
-              <div className="grid grid-rows-2 gap-4 flex-1">
-                <DialogTrigger  className="">
-                  <Button>
-                    <Save />
-                  </Button>
-                </DialogTrigger>
+          <aside className="w-80 space-y-6">
+            <VideoInputForm onVideoUploaded={setVideoId} />
+        
+            <Separator />
 
-                <Textarea
-                  className="resize-none p-4 leading-relaxed"
-                  placeholder="Inclua o prompt para a IA..."
-                  value={input}
-                  onChange={handleInputChange}
-                />
-                <Textarea
-                  className="resize-none p-4 leading-relaxed"
-                  placeholder="Resultado gerado pela IA..."
-                  readOnly
-                  value={completion}
-                />
+            <form onSubmit={handleSubmit} className="space-y-6">
+              
+              <div className="space-y-2">
+                <Label>Prompt</Label> 
+                <PromptSelect onPromptSelected={setInput} />
               </div>
 
-              <p className="text-sm text-muted-foreground">
-                Lembre-se: você pode utilizar a variável
-                <code className="text-violet-400">{' {transcription} '}</code>
-                no seu prompt para adicionar o conteúdo da transcrição do vídeo selecionado.
-              </p>
-              
-            </div>
+              <div className="space-y-2">
+                <Label>Modelo</Label> 
+                <Select disabled defaultValue="gpt3.5">
+                  <SelectTrigger>
+                    <SelectValue />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="gpt3.5">GPT 3.5-turbo 16k</SelectItem>
+                  </SelectContent>
+                </Select>
+                <span className="block text-xs text-muted-foreground italic">
+                  Você poderá customizar essa opção em breve
+                </span>
+              </div>
 
-            <aside className="w-80 space-y-6">
-
-              <VideoInputForm onVideoUploaded={setVideoId} />
-          
               <Separator />
 
-              <form onSubmit={handleSubmit} className="space-y-6">
-                
-                <div className="space-y-2">
-                  <Label>Prompt</Label> 
-                  <PromptSelect onPromptSelected={setInput} />
-                </div>
+              <div className="space-y-4">
+                <Label>Temperatura</Label>
+                <Slider
+                  min={0}
+                  max={1}
+                  step={0.1}
+                  value={[temperature]}
+                  onValueChange={value => setTemperature(value[0])}
+                  title={String(temperature)}
+                />
+                <span className="block text-xs text-muted-foreground italic leading-relaxed">
+                  Valores mais altos tendem a deixar o resultado mais criativo e com possíveis erros.
+                </span>
+              </div>
 
-                <div className="space-y-2">
-                  <Label>Modelo</Label> 
-                  <Select disabled defaultValue="gpt3.5">
-                    <SelectTrigger>
-                      <SelectValue />
-                    </SelectTrigger>
-                    <SelectContent>
-                      <SelectItem value="gpt3.5">GPT 3.5-turbo 16k</SelectItem>
-                    </SelectContent>
-                  </Select>
-                  <span className="block text-xs text-muted-foreground italic">
-                    Você poderá customizar essa opção em breve
-                  </span>
-                </div>
+              <Separator />
 
-                <Separator />
+              <Button disabled={isLoading} type="submit" className="w-full">
+                Executar
+                <Wand2 className="w-4 h-4 ml-2" />
+              </Button>
 
-                <div className="space-y-4">
-                  <Label>Temperatura</Label>
-                  <Slider
-                    min={0}
-                    max={1}
-                    step={0.1}
-                    value={[temperature]}
-                    onValueChange={value => setTemperature(value[0])}
-
-                  />
-                  <span className="block text-xs text-muted-foreground italic leading-relaxed">
-                    Valores mais altos tendem a deixar o resultado mais criativo e com possíveis erros.
-                  </span>
-                </div>
-
-                <Separator />
-
-                <Button disabled={isLoading} type="submit" className="w-full">
-                  Executar
-                  <Wand2 className="w-4 h-4 ml-2" />
-                </Button>
-
-              </form>
-            </aside>
-          </Dialog>
+            </form>
+          </aside>
         </main>
       </div>
+      </Dialog>
     </ThemeProvider>
   )
 }
