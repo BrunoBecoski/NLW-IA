@@ -1,7 +1,6 @@
 import { DialogTrigger } from "@radix-ui/react-dialog";
 import { Save } from "lucide-react";
 
-import { SavePrompt } from "./save-prompt";
 import { Button } from "./ui/button";
 import { Label } from "./ui/label";
 import { Textarea } from "./ui/textarea";
@@ -14,9 +13,6 @@ interface PromptFormProps {
 
 export function PromptForm({ input, handleInputChange, completion }: PromptFormProps) {
   return (
-  <>
-    <SavePrompt />
-
     <div className="flex flex-col flex-1 gap-4">
       <div className="flex justify-between items-center">
         <Label htmlFor="prompt">
@@ -51,6 +47,5 @@ export function PromptForm({ input, handleInputChange, completion }: PromptFormP
         no seu prompt para adicionar o conteúdo da transcrição do vídeo selecionado.
       </p>
     </div>
-  </>
   )
 }

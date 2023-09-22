@@ -7,6 +7,7 @@ import { Separator } from "./components/ui/separator";
 import { Button } from "./components/ui/button";
 import { Dialog } from "./components/ui/dialog";
 
+import { SavePrompt } from "./components/save-prompt";
 import { ModeToggle } from "./components/mode-toggle";
 import { PromptForm } from "./components/prompt-form";
 import { Aside } from "./components/aside";
@@ -57,6 +58,10 @@ export function App() {
         </div>
 
         <main className="flex-1 p-6 flex gap-6">
+          <SavePrompt
+            prompt={input}
+          />
+
           <PromptForm
             input={input}
             handleInputChange={handleInputChange}
