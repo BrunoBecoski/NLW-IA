@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 
-import { DialogContent, DialogDescription, DialogHeader, DialogTitle } from "./ui/dialog";
+import { DialogContent, DialogTrigger, DialogHeader, DialogTitle } from "./ui/dialog";
 import { Label } from "./ui/label";
 import { Input } from "./ui/input";
 import { Textarea } from "./ui/textarea";
@@ -23,30 +23,45 @@ export function SavePrompt({ prompt }: SavePromptProps) {
   useEffect(() => { setTemplate(prompt) }, [prompt])
 
   return (
-    <DialogContent>
+    <DialogContent className="max-w-[80vw]">
       <DialogHeader>
         <DialogTitle>Você quer salvar esse Prompt?</DialogTitle>
       </DialogHeader>
-      <form onSubmit={handleCreate}>
-        <Label>
-          Título
-          <Input
-            value={title}
-            onChange={(event) => setTitle(event.target.value)}
-          />
-        </Label>
-        <Label>
-          Prompt
-          <Textarea
-            value={template}
-            onChange={(event) => setTemplate(event.target.value)}
-            className="resize-none p-4 leading-relaxed font-normal "
-          />
-        </Label>
 
-        <Button type="submit">
-          Salvar
-        </Button>
+      <form onSubmit={handleCreate} className="flex flex-col">
+        <Label htmlFor="title" className="mt-4 mb-2">
+          Título
+        </Label>
+        <Input
+          id="title"
+          value={title}
+          onChange={(event) => setTitle(event.target.value)}
+          />
+
+        <Label htmlFor="template" className="mt-4 mb-2">
+          Prompt
+        </Label>
+        <Textarea
+          id="template"
+          value={template}
+          onChange={(event) => setTemplate(event.target.value)}
+          className="h-[50vh] resize-none p-4 leading-relaxed font-normal "
+        />
+
+        <div className="flex justify-between gap-4 mt-4">
+          <DialogTrigger className="w-1/2">
+            <Button 
+              className="w-full"
+              variant="secondary"
+            >
+              Cancelar
+            </Button>
+          </DialogTrigger>
+
+          <Button className="w-1/2" type="submit">
+            Salvar
+          </Button>
+        </div>
       </form>
     </DialogContent>
   )
