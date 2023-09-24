@@ -1,16 +1,13 @@
 import { useState } from "react";
-import { Github } from "lucide-react";
 import { useCompletion } from "ai/react";
 
 import { ThemeProvider } from "./components/theme-provider";
-import { Separator } from "./components/ui/separator";
-import { Button } from "./components/ui/button";
 import { Dialog } from "./components/ui/dialog";
 
 import { SavePrompt } from "./components/save-prompt";
-import { ModeToggle } from "./components/mode-toggle";
 import { PromptForm } from "./components/prompt-form";
 import { Aside } from "./components/aside";
+import { Header } from "./components/header";
 
 export function App() {
   const [temperature, setTemperature] = useState(0.5)
@@ -37,25 +34,9 @@ export function App() {
   return (
     <ThemeProvider defaultTheme="dark" storageKey="vite-ui-theme">
       <Dialog>
-      <div className="min-h-screen flex flex-col">
-        <div className="px-6 py-3 flex items-center justify-between border-b">
-          <h1 className="text-xl font-bold">upload.ai</h1>
+        <div className="min-h-screen flex flex-col">
 
-          <div className="flex items-center gap-3">
-            <span className="text-sm text-muted-foreground">
-              Desenvolvido com 💜 no NLW da Rocketseat
-            </span>
-
-            <Separator orientation="vertical" className="h-6" />
-
-            <Button variant="outline" onClick={() => window.open("https://github.com/rocketseat-education/nlw-ai-mastery", "_blank")}>
-              <Github className="w-4 h-4 mr-2" />
-              Github
-            </Button>
-
-              <ModeToggle />
-            </div>
-        </div>
+        <Header />
 
         <main className="flex-1 p-6 flex gap-6">
           <SavePrompt
