@@ -34,8 +34,8 @@ export function Aside({
   isLoading
 }: AsideProps) {
   return (
-    <aside className="w-80 space-y-6">
-      <ScrollArea className="w-fit h-[80vh] pr-4">
+    <ScrollArea className="w-fit h-[80vh] pr-4">
+      <aside className="w-80 space-y-6">
         <VideoInputForm onVideoUploaded={setVideoId} />
     
         <Separator />
@@ -87,7 +87,7 @@ export function Aside({
           </Button>
 
         </form>
-      </ScrollArea>
-    </aside>
+      </aside>
+    </ScrollArea>
   )
 }
