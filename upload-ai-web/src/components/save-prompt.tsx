@@ -1,5 +1,7 @@
 import { useEffect, useState } from "react";
 
+import { api } from "../lib/axios";
+
 import { DialogContent, DialogTrigger, DialogHeader, DialogTitle } from "./ui/dialog";
 import { Label } from "./ui/label";
 import { Input } from "./ui/input";
@@ -16,8 +18,11 @@ export function SavePrompt({ prompt }: SavePromptProps) {
 
   function handleCreate(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault()
-    console.log(title),
-    console.log(template)
+
+    api.post('/prompt', {
+      title,
+      template
+    })
   }
 
   useEffect(() => { setTemplate(prompt) }, [prompt])
@@ -58,7 +63,9 @@ export function SavePrompt({ prompt }: SavePromptProps) {
             </Button>
           </DialogTrigger>
 
-          <Button className="w-1/2" type="submit">
+          <Button className="w-1/2" type="submit"
+            disabled={!title || !template}
+          >
             Salvar
           </Button>
         </div>
