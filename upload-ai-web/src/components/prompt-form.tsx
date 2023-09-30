@@ -1,6 +1,6 @@
-import { DialogTrigger } from "@radix-ui/react-dialog";
 import { Save } from "lucide-react";
 
+import { DialogTrigger } from "./ui/dialog";
 import { Button } from "./ui/button";
 import { Label } from "./ui/label";
 import { Textarea } from "./ui/textarea";
@@ -18,14 +18,14 @@ export function PromptForm({ input, handleInputChange, completion }: PromptFormP
         <Label htmlFor="prompt">
           Prompt 
         </Label>
-        {
-          input &&
-            <DialogTrigger>
-              <Button size="icon" title="Salvar prompt" >
-                <Save />
-              </Button>
-            </DialogTrigger>
-        }
+          {
+            input &&
+              <DialogTrigger>
+                <Button size="icon" title="Salvar prompt" >
+                  <Save />
+                </Button>
+              </DialogTrigger>
+          }
       </div>
 
       <div className="grid grid-rows-2 gap-4 flex-1">

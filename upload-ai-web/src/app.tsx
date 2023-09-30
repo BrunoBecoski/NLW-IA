@@ -1,9 +1,9 @@
 import { useState } from "react";
 import { useCompletion } from "ai/react";
 
-import { ThemeProvider } from "./components/theme-provider";
 import { Dialog } from "./components/ui/dialog";
 
+import { ThemeProvider } from "./components/theme-provider";
 import { SavePrompt } from "./components/save-prompt";
 import { PromptForm } from "./components/prompt-form";
 import { Aside } from "./components/aside";
@@ -33,21 +33,23 @@ export function App() {
 
   return (
     <ThemeProvider defaultTheme="dark" storageKey="vite-ui-theme">
-      <Dialog>
-        <div className="min-h-screen flex flex-col">
+      <div className="min-h-screen flex flex-col">
 
         <Header />
 
         <main className="flex-1 p-6 flex gap-6">
-          <SavePrompt
-            prompt={input}
-          />
 
-          <PromptForm
-            input={input}
-            handleInputChange={handleInputChange}
-            completion={completion}
-          />
+          <Dialog>
+            <SavePrompt
+              prompt={input}
+              />
+
+            <PromptForm
+              input={input}
+              handleInputChange={handleInputChange}
+              completion={completion}
+              />
+          </Dialog>
 
           <Aside
             setVideoId={setVideoId}
@@ -59,7 +61,6 @@ export function App() {
           />
         </main>
       </div>
-      </Dialog>
     </ThemeProvider>
   )
 }
