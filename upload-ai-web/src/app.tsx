@@ -1,10 +1,10 @@
 import { useState } from "react";
 import { useCompletion } from "ai/react";
 
-import { Dialog } from "./components/ui/dialog";
-
-
 import { ThemeProvider } from "./contexts/theme-provider";
+import { AlertProvider } from "./contexts/alert-provider";
+
+import { Dialog } from "./components/ui/dialog";
 
 import { SavePrompt } from "./components/save-prompt";
 import { PromptForm } from "./components/prompt-form";
@@ -34,35 +34,36 @@ export function App() {
   })
 
   return (      
-    <ThemeProvider defaultTheme="dark" storageKey="vite-ui-theme">
-      <div className="min-h-screen flex flex-col">
+    <ThemeProvider defaultTheme="dark" storageKey="vite-ui-theme"> 
+      <AlertProvider>
+        <div className="min-h-screen flex flex-col">
 
-        <Header />
+          <Header />
 
-        <main className="flex-1 p-6 flex gap-6">
-        
-          <Dialog>
-            <SavePrompt
-              prompt={input}
+          <main className="flex-1 p-6 flex gap-6">          
+            <Dialog>
+              <SavePrompt
+                prompt={input}
+                />
+
+              <PromptForm
+                input={input}
+                handleInputChange={handleInputChange}
+                completion={completion}
+                />
+            </Dialog>
+
+            <Aside
+              setVideoId={setVideoId}
+              handleSubmit={handleSubmit}
+              setInput={setInput}
+              setTemperature={setTemperature}
+              temperature={temperature}
+              isLoading={isLoading}
               />
-
-            <PromptForm
-              input={input}
-              handleInputChange={handleInputChange}
-              completion={completion}
-              />
-          </Dialog>
-
-          <Aside
-            setVideoId={setVideoId}
-            handleSubmit={handleSubmit}
-            setInput={setInput}
-            setTemperature={setTemperature}
-            temperature={temperature}
-            isLoading={isLoading}
-            />
-        </main>
-      </div>
+          </main>
+        </div>
+      </AlertProvider>
     </ThemeProvider>
   )
 }

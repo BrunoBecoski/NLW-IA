@@ -1,5 +1,7 @@
 import { createContext, useContext, useState } from "react";
 
+import { Alert } from "../components/alert";
+
 interface AlertProviderProps {
   children: React.ReactNode
 }
@@ -28,9 +30,17 @@ export function AlertProvider({
       setIsOpen(isOpen)
     }
   }
-
+  
   return (
     <AlertProviderContext.Provider {...props} value={value}>
+      <Alert
+        action="action"
+        cancel="cancel"
+        description="description"
+        title="title"
+        isOpen={isOpen}
+        setIsOpen={setIsOpen}
+      />
       {children}
     </AlertProviderContext.Provider>
   )
