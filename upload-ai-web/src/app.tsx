@@ -10,6 +10,7 @@ import { SavePrompt } from "./components/save-prompt";
 import { PromptForm } from "./components/prompt-form";
 import { Aside } from "./components/aside";
 import { Header } from "./components/header";
+import { VideoInputForm } from "./components/video-input-form";
 
 export function App() {
   const [temperature, setTemperature] = useState(0.5)
@@ -41,7 +42,7 @@ export function App() {
           <Header />
 
           <main className="flex-1 p-6 flex gap-6">          
-            <Dialog>
+            {/* <Dialog>
               <SavePrompt
                 prompt={input}
                 />
@@ -50,17 +51,20 @@ export function App() {
                 input={input}
                 handleInputChange={handleInputChange}
                 completion={completion}
-                />
-            </Dialog>
+                /> 
+            </Dialog>  */}
 
-            <Aside
+            <VideoInputForm onVideoUploaded={setVideoId} />
+
+
+            {/* <Aside
               setVideoId={setVideoId}
               handleSubmit={handleSubmit}
               setInput={setInput}
               setTemperature={setTemperature}
               temperature={temperature}
               isLoading={isLoading}
-              />
+              /> */}
           </main>
         </div>
       </AlertProvider>

@@ -121,29 +121,33 @@ export function VideoInputForm({ onVideoUploaded }: VideoInputFormProps) {
   }, [videoFile]) 
 
   return(
-    <form onSubmit={handleUploadVideo} className="space-y-6">
-      <label
-        htmlFor="video"
-        className="overflow-hidden relative border flex rounded-md aspect-video cursor-pointer border-dashed text-sm flex-col gap-2 items-center justify-center text-muted-foreground hover:bg-primary/5"
-      >
-        {
-          previewURL ? (
-            <video src={previewURL} controls={false} className="pointer-events-none absolute inset-0" />
-          ) : (
-            <>
-              <FileVideo className="w-4 h-4" />
-              Selecione um vídeo
-            </>
-          )
-        }
-      </label>
+    <form onSubmit={handleUploadVideo} className="space-y-6 h-2/4 w-full flex">
+      <div className="flex-1">
+        <label
+          htmlFor="video"
+          className="overflow-hidden relative border flex rounded-md aspect-video cursor-pointer border-dashed text-sm flex-col gap-2 items-center justify-center text-muted-foreground hover:bg-primary/5"
+        >
+          {
+            previewURL ? (
+              <video src={previewURL} controls={false} className="pointer-events-none absolute inset-0" />
+              ) : (
+                <>
+                <FileVideo className="w-4 h-4" />
+                Selecione um vídeo
+              </>
+            )
+          }
+        </label>
 
-      <input type="file" id="video" accept="video/mp4" className="sr-only" onChange={handleFileSelected} />
-    
-      <Separator />
+        <input type="file" id="video" accept="video/mp4" className="sr-only" onChange={handleFileSelected} />
+      </div>
 
-      <div className="space-y-2">
+      <Separator orientation="vertical" />
+
+
+      <div className="space-y-2 w-auto">
         <Label htmlFor="transcription_prompt">Prompt de transcrição</Label>
+      
         <Textarea 
           ref={promptInputRef}
           disabled={status !== 'waiting'}
@@ -151,24 +155,24 @@ export function VideoInputForm({ onVideoUploaded }: VideoInputFormProps) {
           className="h-20 leading-relaxed resize-none"
           placeholder="Inclua palavras-chaves mencionadas no vídeo separadas por vírgula (,)"
         />
-      </div>
-
-      <Button
-        data-success={status === 'success'}
-        disabled={status !== 'waiting'}
-        type="submit"
-        className="w-full data-[success=true]:bg-emerald-400"
-      >
-        {status === 'waiting' 
-          ?
+      
+        <Button
+          data-success={status === 'success'}
+          disabled={status !== 'waiting'}
+          type="submit"
+          className="w-full data-[success=true]:bg-emerald-400"
+          >
+          {status === 'waiting' 
+            ?
             <>
-              Carregar vídeo
-              <Upload className="w-4 h-4 ml-2" />
-            </>
-          : 
+                Carregar vídeo
+                <Upload className="w-4 h-4 ml-2" />
+              </>
+            : 
             statusMessages[status]
-        }
-      </Button>
+          }
+        </Button>
+      </div>
     </form>
   )
 }
