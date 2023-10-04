@@ -121,7 +121,7 @@ export function VideoInputForm({ onVideoUploaded }: VideoInputFormProps) {
   }, [videoFile]) 
 
   return(
-    <form onSubmit={handleUploadVideo} className="space-y-6 h-2/4 w-full flex">
+    <form onSubmit={handleUploadVideo} className="h-2/4 w-full flex gap-4">
       <div className="flex-1">
         <label
           htmlFor="video"
@@ -145,8 +145,16 @@ export function VideoInputForm({ onVideoUploaded }: VideoInputFormProps) {
       <Separator orientation="vertical" />
 
 
-      <div className="space-y-2 w-auto">
-        <Label htmlFor="transcription_prompt">Prompt de transcrição</Label>
+      <div className="space-y-2 w-80">
+
+{
+  videoFile ?
+  <Button>Converter vídeo para audio</Button>
+  :
+  <p>Selecione um video para converter para mp3</p>
+}
+
+        {/* <Label htmlFor="transcription_prompt">Prompt de transcrição</Label>
       
         <Textarea 
           ref={promptInputRef}
@@ -171,7 +179,7 @@ export function VideoInputForm({ onVideoUploaded }: VideoInputFormProps) {
             : 
             statusMessages[status]
           }
-        </Button>
+        </Button> */}
       </div>
     </form>
   )

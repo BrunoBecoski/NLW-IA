@@ -7,7 +7,7 @@ import { ModeToggle } from "./mode-toggle";
 
 export function Header() {
   return (
-    <header className="px-6 py-3 flex items-center justify-between border-b">
+    <header className="px-6 flex items-center justify-between border-b h-16">
       <h1 className="text-xl font-bold">upload.ai</h1>
 
       <div className="flex items-center gap-3">
