@@ -41,7 +41,7 @@ export function App() {
 
           <Header />
 
-          <main className="flex-1 p-6 flex gap-6">          
+          <main className="flex-1 h-[85vh] p-6 flex gap-6">          
             {/* <Dialog>
               <SavePrompt
                 prompt={input}

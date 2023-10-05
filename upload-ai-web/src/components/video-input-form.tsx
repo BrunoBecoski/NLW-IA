@@ -121,11 +121,11 @@ export function VideoInputForm({ onVideoUploaded }: VideoInputFormProps) {
   }, [videoFile]) 
 
   return(
-    <form onSubmit={handleUploadVideo} className="h-2/4 w-full flex gap-4">
+    <form onSubmit={handleUploadVideo} className="h-[75vh] w-screen flex gap-4">
       <div className="flex-1">
         <label
           htmlFor="video"
-          className="overflow-hidden relative border flex rounded-md aspect-video cursor-pointer border-dashed text-sm flex-col gap-2 items-center justify-center text-muted-foreground hover:bg-primary/5"
+          className="h-full overflow-hidden relative border flex rounded-md aspect-video cursor-pointer border-dashed text-sm flex-col gap-2 items-center justify-center text-muted-foreground hover:bg-primary/5"
         >
           {
             previewURL ? (
@@ -142,19 +142,18 @@ export function VideoInputForm({ onVideoUploaded }: VideoInputFormProps) {
         <input type="file" id="video" accept="video/mp4" className="sr-only" onChange={handleFileSelected} />
       </div>
 
-      <Separator orientation="vertical" />
+      {/* <Separator orientation="vertical" /> 
 
+          <div className="space-y-2 w-80"> 
 
-      <div className="space-y-2 w-80">
+    { 
+      videoFile ? 
+      <Button>Converter vídeo para audio</Button> 
+      : 
+  {/*<p>Selecione um video para converter para mp3</p> 
+    } 
 
-{
-  videoFile ?
-  <Button>Converter vídeo para audio</Button>
-  :
-  <p>Selecione um video para converter para mp3</p>
-}
-
-        {/* <Label htmlFor="transcription_prompt">Prompt de transcrição</Label>
+            <Label htmlFor="transcription_prompt">Prompt de transcrição</Label>
       
         <Textarea 
           ref={promptInputRef}
@@ -180,7 +179,7 @@ export function VideoInputForm({ onVideoUploaded }: VideoInputFormProps) {
             statusMessages[status]
           }
         </Button> */}
-      </div>
+      {/* </div> */}
     </form>
   )
 }
