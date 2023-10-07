@@ -121,35 +121,41 @@ export function VideoInputForm({ onVideoUploaded }: VideoInputFormProps) {
   }, [videoFile]) 
 
   return(
-    <form onSubmit={handleUploadVideo} className="w-full h-full flex justify-center">
-        <label
-          htmlFor="video"
-          className="relative border flex rounded-md aspect-video cursor-pointer border-dashed text-sm flex-col gap-2 items-center justify-center text-muted-foreground hover:bg-primary/5"
-        >
+    <form onSubmit={handleUploadVideo} className="w-full h-full flex gap-6">
+      <label
+        htmlFor="video"
+        className="relative border flex rounded-md aspect-video cursor-pointer border-dashed text-sm flex-col gap-2 items-center justify-center text-muted-foreground hover:bg-primary/5 "
+      >
           {
-            previewURL ? (
-              <video src={previewURL} controls={false} className="pointer-events-none absolute inset-0" />
-              ) : (
-                <>
-                <FileVideo className="w-4 h-4" />
-                Selecione um arquivo (.mp3, .mp4) para fazer upload
-              </>
-            )
-          }
-        </label>
+          previewURL ? (
+            <video src={previewURL} controls={false} className="pointer-events-none absolute inset-0" />
+            ) : (
+              <>
+              <FileVideo className="w-4 h-4" />
+              Selecione um arquivo (.mp3, .mp4) para fazer upload
+            </>
+          )
+        }
 
-        <input type="file" id="video" accept="video/mp4" className="sr-only" onChange={handleFileSelected} />
+        
+        { 
+          !previewURL && 
+          <input type="file" id="video" accept="audio/mp3, video/mp4" className="sr-only" onChange={handleFileSelected} />
 
-      {/* <Separator orientation="vertical" /> 
+        }
 
-          <div className="space-y-2 w-80"> 
+        
+      </label>
 
-    { 
-      videoFile ? 
-      <Button>Converter vídeo para audio</Button> 
-      : 
-  {/*<p>Selecione um video para converter para mp3</p> 
-    } 
+
+      <Separator orientation="vertical" /> 
+
+        <div className="space-y-2 w-80"> 
+
+        <Button className="w-full" disabled={!videoFile}>Salvar arquivo</Button> 
+  
+      </div>
+    {/*
 
             <Label htmlFor="transcription_prompt">Prompt de transcrição</Label>
       
@@ -177,7 +183,6 @@ export function VideoInputForm({ onVideoUploaded }: VideoInputFormProps) {
             statusMessages[status]
           }
         </Button> */}
-      {/* </div> */}
     </form>
   )
 }
