@@ -37,11 +37,11 @@ export function App() {
   return (      
     <ThemeProvider defaultTheme="dark" storageKey="vite-ui-theme"> 
       <AlertProvider>
-        <div className="min-h-screen flex flex-col">
+        <div className="h-screen w-screen flex flex-col">
 
           <Header />
 
-          <main className="flex-1 h-[85vh] p-6 flex gap-6">          
+          <main className=" w-full h-full p-6">          
             {/* <Dialog>
               <SavePrompt
                 prompt={input}

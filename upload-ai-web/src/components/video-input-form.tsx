@@ -121,11 +121,10 @@ export function VideoInputForm({ onVideoUploaded }: VideoInputFormProps) {
   }, [videoFile]) 
 
   return(
-    <form onSubmit={handleUploadVideo} className="h-[75vh] w-screen flex gap-4">
-      <div className="flex-1">
+    <form onSubmit={handleUploadVideo} className="w-full h-full flex justify-center">
         <label
           htmlFor="video"
-          className="h-full overflow-hidden relative border flex rounded-md aspect-video cursor-pointer border-dashed text-sm flex-col gap-2 items-center justify-center text-muted-foreground hover:bg-primary/5"
+          className="relative border flex rounded-md aspect-video cursor-pointer border-dashed text-sm flex-col gap-2 items-center justify-center text-muted-foreground hover:bg-primary/5"
         >
           {
             previewURL ? (
@@ -133,14 +132,13 @@ export function VideoInputForm({ onVideoUploaded }: VideoInputFormProps) {
               ) : (
                 <>
                 <FileVideo className="w-4 h-4" />
-                Selecione um vídeo
+                Selecione um arquivo (.mp3, .mp4) para fazer upload
               </>
             )
           }
         </label>
 
         <input type="file" id="video" accept="video/mp4" className="sr-only" onChange={handleFileSelected} />
-      </div>
 
       {/* <Separator orientation="vertical" /> 
 
