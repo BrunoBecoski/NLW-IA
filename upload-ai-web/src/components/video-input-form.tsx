@@ -6,6 +6,7 @@ import { Separator } from "./ui/separator";
 import { Label } from "./ui/label";
 import { Textarea } from "./ui/textarea";
 import { Button } from "./ui/button";
+import { Player } from "./player";
 
 import { getFFmpeg } from "@/lib/ffmpeg";
 import { api } from "@/lib/axios";
@@ -124,7 +125,9 @@ export function VideoInputForm({ onVideoUploaded }: VideoInputFormProps) {
     <form onSubmit={handleUploadVideo} className="w-full h-full flex gap-6">
       {
         previewURL ? (
-          <video className="relative border flex rounded-md aspect-video cursor-pointer border-dashed text-sm flex-col gap-2 items-center justify-center text-muted-foreground hover:bg-primary/5" src={previewURL} autoPlay controls/>
+          <Player 
+            src={previewURL}
+          />
         ) :  (
           <label
             htmlFor="video"
