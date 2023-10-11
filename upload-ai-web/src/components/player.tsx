@@ -1,14 +1,25 @@
 interface PlayerProps {
   src: string
+  type: string
 }
 
-export function Player({ src }: PlayerProps) {
-  return (
-    <video
-      autoPlay
-      controls
-      className="relative border flex rounded-md aspect-video cursor-pointer border-dashed text-sm flex-col gap-2 items-center justify-center text-muted-foreground hover:bg-primary/5"
-      src={src}
-    />
-  )
+export function Player({ src, type }: PlayerProps) {
+
+  if(type === 'audio/mpeg') {
+    return (
+      <audio
+        controls
+        src={src}
+      />
+    )
+  } 
+
+  if (type === 'video/mp4') {
+    return (
+      <video
+        controls
+        src={src}
+      />
+    )
+  }
 }

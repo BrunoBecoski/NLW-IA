@@ -25,7 +25,7 @@ interface VideoInputFormProps {
 }
 
 export function VideoInputForm({ onVideoUploaded }: VideoInputFormProps) {
-  const [videoFile, setVideoFile] = useState<File | null>(null)
+  const [file, setFile] = useState<File | null>(null)
   const [status, setStatus] = useState<Status>('waiting')
   
   const promptInputRef = useRef<HTMLTextAreaElement>(null)
@@ -39,7 +39,7 @@ export function VideoInputForm({ onVideoUploaded }: VideoInputFormProps) {
 
     const selectedFile = files[0]
 
-    setVideoFile(selectedFile)
+    setFile(selectedFile)
   }
 
   async function convertVideoToAudio(video: File) {
@@ -86,13 +86,13 @@ export function VideoInputForm({ onVideoUploaded }: VideoInputFormProps) {
 
     const prompt = promptInputRef.current?.value
 
-    if (!videoFile) {
+    if (!file) {
       return;
     }
 
     setStatus('converting')
 
-    const audioFile = await convertVideoToAudio(videoFile)
+    const audioFile = await convertVideoToAudio(file)
     const data = new FormData()
 
     data.append('file', audioFile)
@@ -113,20 +113,27 @@ export function VideoInputForm({ onVideoUploaded }: VideoInputFormProps) {
     onVideoUploaded(videoId)
   }
 
-  const previewURL = useMemo(() => {
-    if (!videoFile) {
+  const preview = useMemo(() => {
+
+    if (!file) {
       return null
     }
 
-    return URL.createObjectURL(videoFile)
-  }, [videoFile]) 
+    const preview = {
+      url: URL.createObjectURL(file),
+      type: file.type
+    } 
+
+    return preview
+  }, [file]) 
 
   return(
     <form onSubmit={handleUploadVideo} className="w-full h-full flex gap-6">
       {
-        previewURL ? (
-          <Player 
-            src={previewURL}
+        preview ? (
+          <Player
+            src={preview.url}
+            type={preview.type}
           />
         ) :  (
           <label
@@ -144,7 +151,7 @@ export function VideoInputForm({ onVideoUploaded }: VideoInputFormProps) {
 
         <div className="space-y-2 w-80"> 
 
-        <Button className="w-full" disabled={!videoFile}>Salvar arquivo</Button> 
+        <Button className="w-full" disabled={!file}>Salvar arquivo</Button> 
   
       </div>
     {/*
