@@ -147,13 +147,16 @@ export function VideoInputForm({ onVideoUploaded }: VideoInputFormProps) {
       }
       
       <input type="file" id="video" accept="audio/mp3, video/mp4" className="sr-only" onChange={handleFileSelected} /> 
+      
       <Separator orientation="vertical" /> 
 
         <div className="space-y-2 w-80"> 
+          <Button className="w-full" onClick={() => document.getElementById("video")?.click() }>
+            Selecione um arquivo
+          </Button>
 
-        <Button className="w-full" disabled={!file}>Salvar arquivo</Button> 
-  
-      </div>
+          <Button className="w-full" disabled={!file}>Salvar arquivo</Button>
+        </div>
     {/*
 
             <Label htmlFor="transcription_prompt">Prompt de transcrição</Label>
