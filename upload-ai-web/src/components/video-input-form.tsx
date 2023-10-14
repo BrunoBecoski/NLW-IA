@@ -129,29 +129,35 @@ export function VideoInputForm({ onVideoUploaded }: VideoInputFormProps) {
 
   return(
     <form onSubmit={handleUploadVideo} className="w-full h-full flex gap-6">
-      {
-        preview ? (
-          <Player
-            src={preview.url}
-            type={preview.type}
-          />
-        ) :  (
-          <label
-            htmlFor="video"
-            className="relative border flex rounded-md aspect-video cursor-pointer border-dashed text-sm flex-col gap-2 items-center justify-center text-muted-foreground hover:bg-primary/5 "
-          >
-            <FileVideo className="w-4 h-4" />
-            Selecione um arquivo (.mp3, .mp4) para fazer upload
-          </label>
-        )
-      }
+      <div className="flex-1">
+        {
+          preview ? (
+            <Player
+              src={preview.url}
+              type={preview.type}
+            />
+            ) :  (
+              <label
+                htmlFor="video"
+                className="relative border flex rounded-md aspect-video cursor-pointer border-dashed text-sm flex-col gap-2 items-center justify-center text-muted-foreground hover:bg-primary/5 "
+              >
+              <FileVideo className="w-4 h-4" />
+              Selecione um arquivo (.mp3, .mp4) para fazer upload
+            </label>
+          )
+        }
+      </div>
       
       <input type="file" id="video" accept="audio/mp3, video/mp4" className="sr-only" onChange={handleFileSelected} /> 
       
       <Separator orientation="vertical" /> 
 
-        <div className="space-y-2 w-80"> 
-          <Button className="w-full" onClick={() => document.getElementById("video")?.click() }>
+        <div className="space-y-2 max-w-80"> 
+          <Button 
+            className="w-full"
+            onClick={() => document.getElementById("video")?.click()}
+            type="button"
+          >
             Selecione um arquivo
           </Button>
 

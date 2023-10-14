@@ -1,5 +1,5 @@
 import { useRef } from "react";
-import { Play } from "lucide-react";
+import { Pause, Play } from "lucide-react";
 
 import { Button } from "./ui/button";
 
@@ -9,32 +9,38 @@ interface PlayerProps {
 }
 
 export function Player({ src, type }: PlayerProps) {
+  const mediaRef = useRef<HTMLMediaElement>(null)
 
-  const videoRef = useRef<HTMLVideoElement>(null)
-  const audioRef = useRef<HTMLAudioElement>(null)
-
-  function handleVideoPlay() {
-    videoRef.current?.play()
+  function handlePlay() {
+    mediaRef.current?.play()
   }
 
-  function handleAudioPlay() {
-    audioRef.current?.play()
+  function handlePause() {
+    mediaRef.current?.pause()
   }
-
+  
   if(type === 'audio/mpeg') {
     return (
       <div>
         <audio
           src={src}
-          ref={audioRef}
+          ref={mediaRef}
         />
 
         <Button 
-          onClick={handleAudioPlay}
+          onClick={handlePlay}
           size="icon"
           type="button"
-          >
+        >
           <Play/>
+        </Button>
+
+        <Button 
+          onClick={handlePause}
+          size="icon"
+          type="button"
+        >
+          <Pause/>
         </Button>
       </div>
     )
@@ -45,15 +51,23 @@ export function Player({ src, type }: PlayerProps) {
       <div>
         <video
           src={src}   
-          ref={videoRef}
+          ref={mediaRef}
         />  
 
         <Button 
-          onClick={handleVideoPlay}
+          onClick={handlePlay}
           size="icon"
           type="button"
         >
           <Play/>
+        </Button>
+
+        <Button 
+          onClick={handlePause}
+          size="icon"
+          type="button"
+        >
+          <Pause/>
         </Button>
       </div>
     )
