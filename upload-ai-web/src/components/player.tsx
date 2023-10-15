@@ -1,4 +1,4 @@
-import { useRef } from "react";
+import { useRef, useState } from "react";
 import { Pause, Play } from "lucide-react";
 
 import { Button } from "./ui/button";
@@ -9,16 +9,21 @@ interface PlayerProps {
 }
 
 export function Player({ src, type }: PlayerProps) {
-  const mediaRef = useRef<HTMLMediaElement>(null)
+  const [isPlaying, setIsPlaying] = useState(false)
 
-  function handlePlay() {
+  const mediaRef = useRef<HTMLMediaElement>(null)
+  
+  function handlePlay() {    
     mediaRef.current?.play()
+    setIsPlaying(true)
   }
 
   function handlePause() {
     mediaRef.current?.pause()
+    setIsPlaying(false)
   }
-  
+
+
   if(type === 'audio/mpeg') {
     return (
       <div>
@@ -26,22 +31,26 @@ export function Player({ src, type }: PlayerProps) {
           src={src}
           ref={mediaRef}
         />
-
-        <Button 
-          onClick={handlePlay}
-          size="icon"
-          type="button"
-        >
-          <Play/>
-        </Button>
-
-        <Button 
-          onClick={handlePause}
-          size="icon"
-          type="button"
-        >
-          <Pause/>
-        </Button>
+        
+        {
+          isPlaying ? (
+            <Button 
+              onClick={handlePause}
+              size="icon"
+              type="button"
+            >
+              <Pause/>
+            </Button>
+          ) : (
+            <Button 
+              onClick={handlePlay}
+              size="icon"
+              type="button"
+            >
+              <Play/>
+            </Button>
+          )
+        } 
       </div>
     )
   } 
@@ -54,21 +63,25 @@ export function Player({ src, type }: PlayerProps) {
           ref={mediaRef}
         />  
 
-        <Button 
-          onClick={handlePlay}
-          size="icon"
-          type="button"
-        >
-          <Play/>
-        </Button>
-
-        <Button 
-          onClick={handlePause}
-          size="icon"
-          type="button"
-        >
-          <Pause/>
-        </Button>
+        {
+          isPlaying ? (
+            <Button 
+              onClick={handlePause}
+              size="icon"
+              type="button"
+            >
+              <Pause/>
+            </Button>
+          ) : (
+            <Button 
+              onClick={handlePlay}
+              size="icon"
+              type="button"
+            >
+              <Play/>
+            </Button>
+          )
+        } 
       </div>
     )
   }
