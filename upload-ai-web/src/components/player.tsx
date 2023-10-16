@@ -3,9 +3,11 @@ import { Pause, Play } from "lucide-react";
 
 import { Button } from "./ui/button";
 
+type FileTypes = 'audio/mpeg' | 'video/mp4'
+
 interface PlayerProps {
   src: string
-  type: string
+  type: FileTypes
 }
 
 export function Player({ src, type }: PlayerProps) {
@@ -22,7 +24,6 @@ export function Player({ src, type }: PlayerProps) {
     mediaRef.current?.pause()
     setIsPlaying(false)
   }
-
 
   if(type === 'audio/mpeg') {
     return (
