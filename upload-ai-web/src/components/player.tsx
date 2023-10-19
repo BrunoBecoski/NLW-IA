@@ -32,26 +32,34 @@ export function Player({ src, type }: PlayerProps) {
           src={src}
           ref={audioRef}
         />
-        
-        {
-          isPlaying ? (
-            <Button 
+
+        <div className="flex items-center gap-4">          
+          {
+            isPlaying ? (
+              <Button 
               onClick={() => handlePause(audioRef)}
-              size="icon"
-              type="button"
-            >
-              <Pause/>
-            </Button>
-          ) : (
-            <Button 
+                size="icon"
+                type="button"
+              >
+                <Pause/>
+              </Button>
+            ) : (
+              <Button 
               onClick={() => handlePlay(audioRef)}
-              size="icon"
-              type="button"
-            >
-              <Play/>
-            </Button>
-          )
-        }
+                size="icon"
+                type="button"
+                >
+                <Play/>
+              </Button>
+            )
+          }
+
+          <div>
+            <span className="font-mono font-bold">00:00</span>
+            <span className="font-bold"> / </span>
+            <span className="font-mono font-bold">00:00</span>
+          </div>
+        </div>
       </div>
     )
   } 
