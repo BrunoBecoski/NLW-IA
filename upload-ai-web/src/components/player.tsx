@@ -1,6 +1,8 @@
 import { useEffect, useRef, useState } from "react";
 import { Pause, Play } from "lucide-react";
 
+import { formatSecondsToMinutes } from "../utils/format-seconds-to-minutes";
+
 import { Button } from "./ui/button";
 
 type FileTypes = 'audio/mpeg' | 'video/mp4'
@@ -12,7 +14,7 @@ interface PlayerProps {
 
 export function Player({ src, type }: PlayerProps) {
   const [isPlaying, setIsPlaying] = useState(false)
-  const [duration, setDuration] = useState(0)
+  const [duration, setDuration] = useState('00:00')
 
   const mediaRef = useRef<HTMLVideoElement>(null)
 
@@ -32,7 +34,7 @@ export function Player({ src, type }: PlayerProps) {
     if (mediaTag) {
       mediaTag.addEventListener("loadedmetadata", () => {
         setIsPlaying(false)
-        setDuration(mediaTag.duration)
+        setDuration(formatSecondsToMinutes(mediaTag.duration))
       });
     }
   }, [src])
