@@ -12,6 +12,7 @@ interface PlayerProps {
 
 export function Player({ src, type }: PlayerProps) {
   const [isPlaying, setIsPlaying] = useState(false)
+  const [duration, setDuration] = useState(0)
 
   const mediaRef = useRef<HTMLVideoElement>(null)
 
@@ -26,7 +27,14 @@ export function Player({ src, type }: PlayerProps) {
   }
 
   useEffect(() => {
-    setIsPlaying(false)
+    const mediaTag = mediaRef.current
+    
+    if (mediaTag) {
+      mediaTag.addEventListener("loadedmetadata", () => {
+        setIsPlaying(false)
+        setDuration(mediaTag.duration)
+      });
+    }
   }, [src])
 
   if(type === 'audio/mpeg') {
@@ -63,7 +71,7 @@ export function Player({ src, type }: PlayerProps) {
           <div>
             <span className="font-mono font-bold">00:00</span>
             <span className="font-bold"> / </span>
-            <span className="font-mono font-bold">00:00</span>
+            <span className="font-mono font-bold">{duration}</span>
           </div>
         </div>
       </div>
@@ -104,7 +112,7 @@ export function Player({ src, type }: PlayerProps) {
         <div>
             <span className="font-mono font-bold">00:00</span>
             <span className="font-bold"> / </span>
-            <span className="font-mono font-bold">00:00</span>
+            <span className="font-mono font-bold">{duration}</span>
           </div>
         </div>
       </div>
