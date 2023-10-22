@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import { Pause, Play } from "lucide-react";
 
-import { formatSecondsToMinutes } from "../utils/format-seconds-to-minutes";
+import { formatTime } from "../utils/format-time";
 
 import { Button } from "./ui/button";
 
@@ -34,7 +34,7 @@ export function Player({ src, type }: PlayerProps) {
     if (mediaTag) {
       mediaTag.addEventListener("loadedmetadata", () => {
         setIsPlaying(false)
-        setDuration(formatSecondsToMinutes(mediaTag.duration))
+        setDuration(formatTime(mediaTag.duration))
       });
     }
   }, [src])
