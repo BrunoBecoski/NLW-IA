@@ -14,28 +14,46 @@ interface PlayerProps {
 
 export function Player({ src, type }: PlayerProps) {
   const [isPlaying, setIsPlaying] = useState(false)
-  const [duration, setDuration] = useState('00:00')
+  const [totalTime, setTotalTime] = useState('00:00')
+  const [currentTime, setCurrentTime] = useState('00:00')
 
   const mediaRef = useRef<HTMLVideoElement>(null)
 
-  function handlePlay() {    
-    mediaRef.current?.play()
-    setIsPlaying(true)
-  }
-
-  function handlePause() {
-    mediaRef.current?.pause()
-    setIsPlaying(false)
+  function handlePlayPause() {    
+    if(isPlaying) {
+      mediaRef.current?.pause()
+    } else {
+      mediaRef.current?.play() 
+    }
   }
 
   useEffect(() => {
     const mediaTag = mediaRef.current
-    
+
     if (mediaTag) {
       mediaTag.addEventListener("loadedmetadata", () => {
         setIsPlaying(false)
-        setDuration(formatTime(mediaTag.duration))
       });
+
+      mediaTag.addEventListener("timeupdate", () => {
+        setCurrentTime(formatTime(mediaTag.currentTime))
+      })
+
+      mediaTag.addEventListener("ended", () => {
+        setIsPlaying(false)
+      })
+
+      mediaTag.addEventListener("durationchange", () => {
+        setTotalTime(formatTime(mediaTag.duration))
+      })
+
+      mediaTag.addEventListener("pause", () => {
+        setIsPlaying(false)
+      })
+
+      mediaTag.addEventListener("play", () => {
+        setIsPlaying(true)
+      })
     }
   }, [src])
 
@@ -48,32 +66,23 @@ export function Player({ src, type }: PlayerProps) {
         />
 
         <div className="flex items-center gap-4">          
-          {
-            isPlaying ? (
-              <Button 
-                onClick={handlePause}
-                size="icon"
-                type="button"
-                title="Parar"
-              >
-                <Pause/>
-              </Button>
-            ) : (
-              <Button 
-                onClick={handlePlay}
-                size="icon"
-                type="button"
-                title="Reproduzir"
-              >
-                <Play/>
-              </Button>
-            )
-          }
+          <Button 
+            onClick={handlePlayPause}
+            size="icon"
+            type="button"
+            title={isPlaying ? "Parar" : "Reproduzir" }
+          >
+            {
+              isPlaying
+                ? <Pause /> 
+                : <Play/>
+            }
+          </Button>
 
           <div>
-            <span className="font-mono font-bold">00:00</span>
+            <span className="font-mono font-bold">{currentTime}</span>
             <span className="font-bold"> / </span>
-            <span className="font-mono font-bold">{duration}</span>
+            <span className="font-mono font-bold">{totalTime}</span>
           </div>
         </div>
       </div>
@@ -89,32 +98,23 @@ export function Player({ src, type }: PlayerProps) {
         />  
 
         <div className="flex items-center gap-4">          
-          {
-            isPlaying ? (
-              <Button 
-                onClick={handlePause}
-                size="icon"
-                type="button"
-                title="Parar" 
-              >
-                <Pause/>
-              </Button>
-            ) : (
-              <Button 
-                onClick={handlePlay}
-                size="icon"
-                type="button"
-                title="Reproduzir"
-              >
-                <Play/>
-              </Button>
-            )
-          }
+          <Button 
+            onClick={handlePlayPause}
+            size="icon"
+            type="button"
+            title={isPlaying ? "Parar" : "Reproduzir" }
+          >
+            {
+              isPlaying
+                ? <Pause /> 
+                : <Play/>
+            }
+          </Button>
 
-        <div>
-            <span className="font-mono font-bold">00:00</span>
+          <div>
+            <span className="font-mono font-bold">{currentTime}</span>
             <span className="font-bold"> / </span>
-            <span className="font-mono font-bold">{duration}</span>
+            <span className="font-mono font-bold">{totalTime}</span>
           </div>
         </div>
       </div>
