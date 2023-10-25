@@ -4,6 +4,7 @@ import { Pause, Play } from "lucide-react";
 import { formatTime } from "../utils/format-time";
 
 import { Button } from "./ui/button";
+import { Slider } from "./ui/slider";
 
 type FileTypes = 'audio/mpeg' | 'video/mp4'
 
@@ -14,8 +15,8 @@ interface PlayerProps {
 
 export function Player({ src, type }: PlayerProps) {
   const [isPlaying, setIsPlaying] = useState(false)
-  const [totalTime, setTotalTime] = useState('00:00')
-  const [currentTime, setCurrentTime] = useState('00:00')
+  const [totalTime, setTotalTime] = useState(0)
+  const [currentTime, setCurrentTime] = useState(0)
 
   const mediaRef = useRef<HTMLVideoElement>(null)
 
@@ -27,16 +28,22 @@ export function Player({ src, type }: PlayerProps) {
     }
   }
 
+  function handleUpdateTime(value: number[]) {
+    if (mediaRef.current) {
+      mediaRef.current.currentTime = value[0]
+    }
+  }
+
   useEffect(() => {
     const mediaTag = mediaRef.current
 
-    if (mediaTag) {
+    if (mediaTag) {      
       mediaTag.addEventListener("loadedmetadata", () => {
         setIsPlaying(false)
       });
 
       mediaTag.addEventListener("timeupdate", () => {
-        setCurrentTime(formatTime(mediaTag.currentTime))
+        setCurrentTime(Math.floor(mediaTag.currentTime))
       })
 
       mediaTag.addEventListener("ended", () => {
@@ -44,7 +51,7 @@ export function Player({ src, type }: PlayerProps) {
       })
 
       mediaTag.addEventListener("durationchange", () => {
-        setTotalTime(formatTime(mediaTag.duration))
+        setTotalTime(Math.floor(mediaTag.duration))
       })
 
       mediaTag.addEventListener("pause", () => {
@@ -80,10 +87,17 @@ export function Player({ src, type }: PlayerProps) {
           </Button>
 
           <div>
-            <span className="font-mono font-bold">{currentTime}</span>
+            <span className="font-mono font-bold">{formatTime(currentTime)}</span>
             <span className="font-bold"> / </span>
-            <span className="font-mono font-bold">{totalTime}</span>
+            <span className="font-mono font-bold">{formatTime(totalTime)}</span>
           </div>
+
+          <Slider
+            max={totalTime}
+            value={[currentTime]}
+            onValueChange={handleUpdateTime}
+            className="cursor-pointer"
+          />
         </div>
       </div>
     )
@@ -112,10 +126,17 @@ export function Player({ src, type }: PlayerProps) {
           </Button>
 
           <div>
-            <span className="font-mono font-bold">{currentTime}</span>
+            <span className="font-mono font-bold">{formatTime(currentTime)}</span>
             <span className="font-bold"> / </span>
-            <span className="font-mono font-bold">{totalTime}</span>
+            <span className="font-mono font-bold">{formatTime(totalTime)}</span>
           </div>
+
+          <Slider
+            max={totalTime}
+            value={[currentTime]}
+            onValueChange={handleUpdateTime}
+            className="cursor-pointer"
+          />
         </div>
       </div>
     )
