@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from "react";
-import { Pause, Play } from "lucide-react";
+import { Pause, Play, Volume, Volume1, Volume2, VolumeX } from "lucide-react";
 
 import { formatTime } from "../utils/format-time";
 
@@ -17,6 +17,8 @@ export function Player({ src, type }: PlayerProps) {
   const [isPlaying, setIsPlaying] = useState(false)
   const [totalTime, setTotalTime] = useState(0)
   const [currentTime, setCurrentTime] = useState(0)
+  const [isMuted, setIsMuted] = useState(false)
+  const [volume, setVolume] = useState(.5)
 
   const mediaRef = useRef<HTMLVideoElement>(null)
 
@@ -32,6 +34,13 @@ export function Player({ src, type }: PlayerProps) {
     if (mediaRef.current) {
       mediaRef.current.currentTime = value[0]
     }
+  }
+  
+  function handleMutedUnmuted() {
+    if(mediaRef.current) {
+      mediaRef.current.muted = !isMuted
+      setIsMuted(!isMuted)
+    } 
   }
 
   useEffect(() => {
@@ -61,8 +70,18 @@ export function Player({ src, type }: PlayerProps) {
       mediaTag.addEventListener("play", () => {
         setIsPlaying(true)
       })
+
+      mediaTag.addEventListener("volumechange", () => {
+        setVolume(mediaTag.volume)
+      })
     }
   }, [src])
+
+  useEffect(() => {
+    if(mediaRef.current) {
+      mediaRef.current.volume = volume
+    }    
+  }, [volume])
 
   if(type === 'audio/mpeg') {
     return (
@@ -85,6 +104,28 @@ export function Player({ src, type }: PlayerProps) {
                 : <Play/>
             }
           </Button>
+          
+          <Button 
+            type="button"
+            size="icon"
+            onClick={handleMutedUnmuted}
+            title={isMuted ? "Ativar áudio" : "Desativar áudio"}
+          >
+            { isMuted && <VolumeX /> }
+            
+            { isMuted || volume === 0 && <Volume /> }
+            { isMuted || volume >= .1 && volume <= .4  && <Volume1 /> }
+            { isMuted || volume >= .5 && volume <= 1 && <Volume2 /> }
+          </Button>
+          
+          <Slider
+            min={0}
+            max={1}
+            step={.1}
+            value={[volume]}
+            onValueChange={value => setVolume(value[0]) }
+            className="cursor-pointer"
+          />
 
           <div>
             <span className="font-mono font-bold">{formatTime(currentTime)}</span>
@@ -93,6 +134,7 @@ export function Player({ src, type }: PlayerProps) {
           </div>
 
           <Slider
+            min={0}
             max={totalTime}
             value={[currentTime]}
             onValueChange={handleUpdateTime}
@@ -125,6 +167,28 @@ export function Player({ src, type }: PlayerProps) {
             }
           </Button>
 
+          <Button 
+            type="button"
+            size="icon"
+            onClick={handleMutedUnmuted}
+            title={isMuted ? "Ativar áudio" : "Desativar áudio"}
+          >
+            { isMuted && <VolumeX /> }
+            
+            { isMuted || volume === 0 && <Volume /> }
+            { isMuted || volume >= .1 && volume <= .4  && <Volume1 /> }
+            { isMuted || volume >= .5 && volume <= 1 && <Volume2 /> }
+          </Button>
+
+          <Slider
+            min={0}
+            max={1}
+            step={.1}
+            value={[volume]}
+            onValueChange={value => setVolume(value[0])}
+            className="cursor-pointer"
+          />
+
           <div>
             <span className="font-mono font-bold">{formatTime(currentTime)}</span>
             <span className="font-bold"> / </span>
@@ -132,6 +196,7 @@ export function Player({ src, type }: PlayerProps) {
           </div>
 
           <Slider
+            min={0}
             max={totalTime}
             value={[currentTime]}
             onValueChange={handleUpdateTime}
