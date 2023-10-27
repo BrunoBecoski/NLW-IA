@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from "react";
-import { Pause, Play, Volume, Volume1, Volume2, VolumeX } from "lucide-react";
+import { FastForward, Pause, Play, Repeat, Rewind, Volume, Volume1, Volume2, VolumeX } from "lucide-react";
 
 import { formatTime } from "../utils/format-time";
 
@@ -19,6 +19,7 @@ export function Player({ src, type }: PlayerProps) {
   const [currentTime, setCurrentTime] = useState(0)
   const [isMuted, setIsMuted] = useState(false)
   const [volume, setVolume] = useState(.5)
+  const [isLoop, setIsLoop] = useState(false)
 
   const mediaRef = useRef<HTMLVideoElement>(null)
 
@@ -41,6 +42,24 @@ export function Player({ src, type }: PlayerProps) {
       mediaRef.current.muted = !isMuted
       setIsMuted(!isMuted)
     } 
+  }
+
+  function handleLoop() {
+    if (mediaRef.current) {
+      mediaRef.current.loop = !isLoop
+      setIsLoop(!isLoop)
+    }
+  }
+
+  function handleTime(type: 'forward' | 'backward') {
+    if (mediaRef.current) {
+      if (type === 'forward') {
+        mediaRef.current.currentTime = mediaRef.current.currentTime + 10
+      }
+      if (type === 'backward') {
+        mediaRef.current.currentTime = mediaRef.current.currentTime - 10
+      }
+    }
   }
 
   useEffect(() => {
@@ -104,6 +123,32 @@ export function Player({ src, type }: PlayerProps) {
                 : <Play/>
             }
           </Button>
+
+          <Button
+            type="button"
+            size="icon"
+            onClick={handleLoop}
+            variant={isLoop ? "default" : "secondary"}
+            title={isLoop ? "Desativar repetição" : "Ativar repetição"}
+          >
+            <Repeat />
+          </Button>
+
+          <Button 
+            type="button" 
+            size="icon" 
+            onClick={() => handleTime("backward")}
+          >
+            <Rewind />
+          </Button>
+          
+          <Button 
+            type="button" 
+            size="icon"
+            onClick={() => handleTime("forward")}
+          >
+            <FastForward />
+          </Button>
           
           <Button 
             type="button"
@@ -147,11 +192,56 @@ export function Player({ src, type }: PlayerProps) {
 
   if (type === 'video/mp4') {
     return (
-      <div>
+      <>
+      <div  className="relative">
         <video
           src={src}   
           ref={mediaRef}
-        />  
+        />
+          
+          <div className="flex items-center justify-center gap-4 absolute top-0 left-0 bottom-0 right-0">
+
+        { isPlaying ?
+            <button 
+              className="w-full h-full bg-transparent"
+              onClick={handlePlayPause}
+              title="Parar"
+              type="button"
+            />
+        :
+        <>
+        <Button 
+            type="button" 
+            size="icon" 
+            onClick={() => handleTime("backward")}
+          >
+            <Rewind />
+          </Button>
+
+          <Button 
+            onClick={handlePlayPause}
+            size="icon"
+            type="button"
+            title={isPlaying ? "Parar" : "Reproduzir" }
+          >
+            {
+              isPlaying
+                ? <Pause /> 
+                : <Play/>
+            }
+          </Button>
+          
+          <Button 
+            type="button" 
+            size="icon"
+            onClick={() => handleTime("forward")}
+          >
+            <FastForward />
+          </Button>
+          </>
+        }
+        </div>
+        </div>
 
         <div className="flex items-center gap-4">          
           <Button 
@@ -165,6 +255,32 @@ export function Player({ src, type }: PlayerProps) {
                 ? <Pause /> 
                 : <Play/>
             }
+          </Button>
+
+          <Button
+            type="button"
+            size="icon"
+            onClick={handleLoop}
+            variant={isLoop ? "default" : "secondary"}
+            title={isLoop ? "Desativar repetição" : "Ativar repetição"}
+          >
+            <Repeat />
+          </Button>
+
+          <Button 
+            type="button" 
+            size="icon" 
+            onClick={() => handleTime("backward")}
+          >
+            <Rewind />
+          </Button>
+          
+          <Button 
+            type="button" 
+            size="icon"
+            onClick={() => handleTime("forward")}
+          >
+            <FastForward />
           </Button>
 
           <Button 
@@ -203,7 +319,8 @@ export function Player({ src, type }: PlayerProps) {
             className="cursor-pointer"
           />
         </div>
-      </div>
+    
+      </>
     )
   }
 }
